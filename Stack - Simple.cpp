@@ -1,24 +1,21 @@
 #include <stdio.h>
 #define SIZE 4
 
+// initialization
 int top = -1;
 int stack[SIZE];
 
-void push(){
+void push(int data){
 	int value;
 	
 	if(top == SIZE-1){
 		printf("\nStack will overflow.\n");
 	}
 	else{
-		printf("\nEnter value: ");
-		scanf("%d", &value);
-		
-		top = top + 1;
-		stack[top] = value;	
+		// increment first then use top as array index
+		top++;
+		stack[top] = data;	
 	}
-	
-	printf("\n======================================\n");
 }
 
 void pop(){
@@ -27,10 +24,8 @@ void pop(){
 	}
 	else{
 		printf("\nPopped value is %d.\n", stack[top]);
-		top = top - 1;
+		top--;  // goes down below
 	}
-	
-	printf("\n======================================\n");
 }
 
 void display(){
@@ -40,6 +35,7 @@ void display(){
 		printf("\n  Stack is empty.\n");
 	}
 	else{
+		// decrementing for loop because printing stack is from top (new) to bottom (old)
 		for(int i = top; i >= 0; i--){
 			if(i == top){
 				printf("  %d (Top)\n", stack[i]);
@@ -49,27 +45,28 @@ void display(){
 			printf("  %d\n", stack[i]);
 		}	
 	}
-	
-	printf("\n======================================\n");
 }
 
 int main(){
-	int choice;
+	int choice, value;
 	
-	printf("\n1 - Push\n2 - Pop\n3 - Display\n\n>");
-	scanf("%d", &choice);
-	
-	switch(choice){
-		case 1: push();
-			main();
-			break;
-		case 2: pop();
-			main();
-			break;
-		case 3: display();
-			main();
-			break;
-		default:
-			return 0;
+	while(1){
+		printf("\n======================================\n");
+		printf("\n1 - Push\n2 - Pop\n3 - Display\n\n>");
+		scanf("%d", &choice);
+		
+		switch(choice){
+			case 1: 
+				printf("\nEnter value: ");
+				scanf("%d", &value);
+				push(value);
+				break;
+			case 2: pop();
+				break;
+			case 3: display();
+				break;
+			default:
+				return 0;
+		}
 	}
 }
