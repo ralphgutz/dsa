@@ -17,8 +17,8 @@ struct node *createNode(){
 	return(newnode);
 }
 
-int push(int data){
-	struct node *newnode, *temp;
+void push(int data){
+	struct node *newnode;
 	newnode = createNode();
 	
 	newnode->value = data;
@@ -26,58 +26,54 @@ int push(int data){
 	
 	if(count == SIZE){
 		printf("\nStack overflow.\n");
-		return 0;
-	}
-	if(top == NULL){
-		top = newnode;
 	}
 	else{
-		newnode->link = top;
-		top = newnode;
+		if(top != NULL){  // if newnode isn't the first node
+			newnode->link = top;
+		}
+		
+		top = newnode;  // set newnode as new top, count++
+		count++;
 	}
-	
-	count++;
 }
 
-int pop(){
+void pop(){  // pop the top
 	struct node *temp;
 	
 	if(top == NULL){
 		printf("\nStack underflow.\n");
-		return 0;
 	}
 	else{
 		printf("\nPopped value %d (%p).\n", top->value, top);
-		temp = top;
-		top = top->link;
+		temp = top;  // temp as temporary top
+		top = top->link;  // set top's below node to new top
 		free(temp);
+		count--;
 	}
-	
-	count--;
 }
 
-int display(){
+void display(){
 	struct node *temp;
 	printf("\nSTACK:\n");
 	
 	if(top == NULL){
 		printf("\nStack is empty.\n");
-		return 0;
 	}
+	else{
+		printf("\n Value Node\t\tLinked Node\n");
 	
-	printf("\n Value Node\t\tLinked Node\n");
-	
-	temp = top;
-	while(temp != NULL){
-		
-		if(temp == top){
-			printf(" %d (%p)\t(%p) - Top\n", temp->value, temp, temp->link);
-			temp = temp->link;
-			continue;
+		temp = top;  // temp as traversal
+		while(temp != NULL){
+			
+			if(temp == top){
+				printf(" %d (%p)\t(%p) - Top\n", temp->value, temp, temp->link);
+				temp = temp->link;
+				continue;
+			}
+			
+			printf(" %d (%p)\t(%p)\n", temp->value, temp, temp->link);
+			temp = temp->link;  // counter
 		}
-		
-		printf(" %d (%p)\t(%p)\n", temp->value, temp, temp->link);
-		temp = temp->link;
 	}
 }
 
